@@ -28,8 +28,13 @@ io.on('connection', function (socket) {
     });
   })
 
-  socket.on('chat message', function (msg) {
-    io.emit('chat message', msg);
+  socket.on('chatMessage', function (message) {
+    io.emit('chatMessage', message);
+  });
+
+  socket.on('pingServer', function (msg) {
+    console.log('ping');
+    io.emit('messageChannel', msg);
   });
 });
 
