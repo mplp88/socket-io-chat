@@ -12,23 +12,26 @@ app.get('/', function (req, res) {
 })
 
 io.on('connection', function (socket) {
-  socket.on('connected', function (userName) {
-    io.emit('connected', {
+  socket.on('userConnected', function (userName) {
+    console.log(`${userName} connected`);
+    io.emit('userConnected', {
       user: -1,
       text: `${userName} connected`,
       isBroadcast: true
     });
   })
 
-  socket.on('disconnected', function () {
-    io.emit({
+  socket.on('userDisconnected', function (userName) {
+    console.log(`${userName} disconnected`);
+    io.emit('userDisconnected', {
       user: -1,
-      text: 'A user disconnected',
+      text: `${userName} disconnected`,
       isBroadcast: true
     });
   })
 
   socket.on('chatMessage', function (message) {
+    console.log(`${message.userName} says: ${message.text}`);
     io.emit('chatMessage', message);
   });
 
