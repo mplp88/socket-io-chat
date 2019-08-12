@@ -5,28 +5,41 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 let port = 8082
 let hostname = '192.168.60.140';
-
+let contacts = []
 
 app.get('/', function (req, res) {
   res.send('<h1>Chat is online</h1>')
 })
 
 io.on('connection', function (socket) {
-  socket.on('userConnected', function (userName) {
-    console.log(`${userName} connected`);
-    io.emit('userConnected', {
+  socket.on('userConnected', function (user) {
+    console.log(`${user.userName} connected`);
+    let msg = {
       user: -1,
-      text: `${userName} connected`,
+      text: `${user.userName} connected`,
       isBroadcast: true
+    };
+
+    contacts.push(user)
+    io.emit('userConnected',{
+      msg,
+      contacts
     });
   })
 
-  socket.on('userDisconnected', function (userName) {
-    console.log(`${userName} disconnected`);
-    io.emit('userDisconnected', {
+  socket.on('userDisconnected', function (user) {
+    console.log(`${user.userName} disconnected`);
+
+    contacts = contacts.filter(x => x.id != user.id);
+    let msg = {
       user: -1,
-      text: `${userName} disconnected`,
+      text: `${user.userName} disconnected`,
       isBroadcast: true
+    };
+
+    io.emit('userDisconnected',{
+      msg,
+      contacts
     });
   })
 
