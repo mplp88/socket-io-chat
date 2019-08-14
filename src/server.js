@@ -21,9 +21,9 @@ io.on('connection', function (socket) {
     };
 
     contacts.push(user)
-    io.emit('userConnected',{
+    io.emit('userConnected', {
       msg,
-      contacts
+      contacts: contacts
     });
   })
 
@@ -39,7 +39,7 @@ io.on('connection', function (socket) {
 
     io.emit('userDisconnected',{
       msg,
-      contacts
+      contacts: contacts
     });
   })
 
