@@ -54,7 +54,7 @@ io.on('connection', function (socket) {
   });
 });
 
-http.listen(port, hostname, function () {
+http.listen(port, function () {
   //console.log(`listening on http://${hostname}:${port}`);
   console.log(`listening on port: ${port}`);
 });
