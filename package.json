@@ -2,7 +2,7 @@
   "name": "socket-io-chat-tutorial",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack"
@@ -20,6 +20,6 @@
     "socket.io": "^2.2.0"
   },
   "engines": {
-    "node": ">=10.16.2"
+    "node": "10.16.2"
   }
 }
