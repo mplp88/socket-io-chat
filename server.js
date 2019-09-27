@@ -3,8 +3,8 @@ const cors = require('cors');
 app.use(cors());
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-let port = 3002
-let hostname = 'localhost';
+let port = 443;
+let hostname = 'https://pon-chat-back.herokuapp.com';
 let contacts = []
 
 app.get('/', function (req, res) {
