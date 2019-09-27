@@ -4,7 +4,7 @@ app.use(cors());
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 let port = process.env.PORT || 3002;
-let hostname = process.env.HOST || 'http://localhost';
+let hostname = process.env.HOST || 'localhost';
 let contacts = []
 
 app.get('/', function (req, res) {
