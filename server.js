@@ -3,8 +3,8 @@ const cors = require('cors');
 app.use(cors());
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-let port = 8082
-let hostname = '192.168.60.140';
+let port = 3002
+let hostname = 'localhost';
 let contacts = []
 
 app.get('/', function (req, res) {
