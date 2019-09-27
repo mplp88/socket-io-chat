@@ -4,7 +4,7 @@ app.use(cors());
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 let port = process.env.PORT || 3002;
-let hostname = process.env.HOST || 'localhost';
+//let hostname = process.env.HOST || 'localhost';
 let contacts = []
 
 app.get('/', function (req, res) {
@@ -55,5 +55,6 @@ io.on('connection', function (socket) {
 });
 
 http.listen(port, hostname, function () {
-  console.log(`listening on http://${hostname}:${port}`);
+  //console.log(`listening on http://${hostname}:${port}`);
+  console.log(`listening on port: ${port}`);
 });
