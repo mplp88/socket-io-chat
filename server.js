@@ -58,12 +58,12 @@ io.on('connection', function (socket) {
 
   socket.on('chatMessage', function (message) {
     console.log(`${message.userName} says: ${message.text}`);
-    socket.emit('chatMessage', message);
+    io.emit('chatMessage', message);
   });
 
   socket.on('pingServer', function (msg) {
     console.log('ping');
-    socket.emit('messageChannel', msg);
+    io.emit('messageChannel', msg);
   });
 });
 
