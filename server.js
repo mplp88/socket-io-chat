@@ -35,10 +35,10 @@ io.on('connection', function (socket) {
       msg
     });
   })
-  
+
   socket.on('userDisconnected', function (user) {
     console.log(`${user.userName} se desconectó`);
-    
+
     contacts = contacts.filter(x => x.id != user.id);
 
     let msg = {
@@ -46,13 +46,13 @@ io.on('connection', function (socket) {
       text: `${user.userName} se desconectó`,
       isBroadcast: true
     };
-    
-    socket.broadcast.emit('userDisconnected',{
+
+    socket.broadcast.emit('userDisconnected', {
       msg
     });
   })
-  
-  socket.on('refreshContacts', function() {
+
+  socket.on('refreshContacts', function () {
     io.emit('refreshContacts', contacts);
   });
 
