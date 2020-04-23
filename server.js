@@ -1,16 +1,16 @@
-//const fs = require('fs'); //Uncomment for localhost
+const fs = require('fs'); //Uncomment for localhost
 const app = require('express')();
 const cors = require('cors');
 app.use(cors());
 
 //Uncomment for localhost
-// const options = {
-//   key: fs.readFileSync('./security/cert.key'),
-//   cert: fs.readFileSync('./security/cert.pem')
-// }
+const options = {
+  key: fs.readFileSync('./security/cert.key'),
+  cert: fs.readFileSync('./security/cert.pem')
+}
 
-//const http = require('https').createServer(options, app);
-const http = require('http').createServer(app);
+const http = require('https').createServer(options, app);
+// const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 let port = process.env.PORT || 3002;
 //let hostname = process.env.HOST || 'localhost';
@@ -69,6 +69,6 @@ io.on('connection', function (socket) {
 
 http.listen(port, function () {
   //console.log(`listening on http://${hostname}:${port}`);
-  //console.log(`listening https://localhost:${port}`);
-  console.log(`listening http://localhost:${port}`);
+  console.log(`listening https://localhost:${port}`);
+  // console.log(`listening http://localhost:${port}`);
 });
