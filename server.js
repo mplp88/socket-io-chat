@@ -17,7 +17,7 @@ let port = process.env.PORT || 3002;
 let contacts = [];
 
 app.get('/', function (req, res) {
-  res.send('<h1>Chat is online</h1>')
+  res.send('<h1>Pon-Chat Api is online</h1>')
 })
 
 io.on('connection', function (socket) {
@@ -35,10 +35,10 @@ io.on('connection', function (socket) {
       msg
     });
   })
-  
+
   socket.on('userDisconnected', function (user) {
     console.log(`${user.userName} se desconectó`);
-    
+
     contacts = contacts.filter(x => x.id != user.id);
 
     let msg = {
@@ -46,13 +46,13 @@ io.on('connection', function (socket) {
       text: `${user.userName} se desconectó`,
       isBroadcast: true
     };
-    
-    socket.broadcast.emit('userDisconnected',{
+
+    socket.broadcast.emit('userDisconnected', {
       msg
     });
   })
-  
-  socket.on('refreshContacts', function() {
+
+  socket.on('refreshContacts', function () {
     io.emit('refreshContacts', contacts);
   });
 
