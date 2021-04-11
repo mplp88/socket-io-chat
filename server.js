@@ -1,20 +1,21 @@
-// const fs = require('fs'); //Uncomment for localhost
+const fs = require('fs'); //Uncomment for localhost
 const app = require('express')();
 const cors = require('cors');
 app.use(cors());
 
 //Uncomment for localhost
-// const options = {
-//   key: fs.readFileSync('./security/cert.key'),
-//   cert: fs.readFileSync('./security/cert.pem')
-// }
+const options = {
+  key: fs.readFileSync('./security/cert.key'),
+  cert: fs.readFileSync('./security/cert.pem')
+}
 
-// const http = require('https').createServer(options, app);
-const http = require('http').createServer(app);
+const http = require('https').createServer(options, app);
+// const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 let port = process.env.PORT || 3002;
 //let hostname = process.env.HOST || 'localhost';
-let contacts = [];
+let users = [];
+let messages = [];
 
 app.get('/', function (req, res) {
   res.send('<h1>Pon-Chat Api is online</h1>')
@@ -22,14 +23,15 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
   socket.on('userConnected', function (user) {
-    console.log(`${user.userName} se conectó`);
+    let text = `${user.userName} se conectó`
+    console.log(text);
     let msg = {
       user: -1,
-      text: `${user.userName} se conectó`,
+      text,
       isBroadcast: true
     };
 
-    contacts.push(user)
+    users.push(user)
 
     socket.broadcast.emit('userConnected', {
       msg
@@ -37,13 +39,14 @@ io.on('connection', function (socket) {
   })
 
   socket.on('userDisconnected', function (user) {
-    console.log(`${user.userName} se desconectó`);
+    let text = `${user.userName} se desconectó`
+    console.log(text);
 
-    contacts = contacts.filter(x => x.id != user.id);
+    users = users.filter(x => x.id != user.id);
 
     let msg = {
       user: -1,
-      text: `${user.userName} se desconectó`,
+      text,
       isBroadcast: true
     };
 
@@ -53,13 +56,20 @@ io.on('connection', function (socket) {
   })
 
   socket.on('refreshContacts', function () {
-    io.emit('refreshContacts', contacts);
+    io.emit('refreshContacts', users);
   });
 
   socket.on('chatMessage', function (message) {
-    console.log(`${message.userName} says: ${message.text}`);
+    //console.log(`${message.userName} says: ${message.text}`);
+    messages.push(message);
+    message.status = 'sent';
     io.emit('chatMessage', message);
   });
+
+  socket.on('updateStatus', function (message) {
+    let msg = messages.find(m => m.id == message.id);
+    console.log(`updateStatus: ${msg.id}, ${msg.status}`);
+  })
 
   socket.on('pingServer', function (msg) {
     console.log('ping');
